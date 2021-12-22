@@ -1,0 +1,20 @@
+# debrid-scripts
+
+Collection of scripts used to bypass 1Fichier time restrictions (PoC).
+
+## debrid.sh
+
+This script depends on `cURL` and `html-xml-utils`. On Ubuntu, these dependencies
+can be installed by running the following command:
+```$ sudo apt install curl html-xml-utils```
+
+Then, run `debrid.sh` using:
+```
+$ chmod +x debrid.sh
+$ ./debrid.sh [url] ... 
+```
+
+## debrid.c
+
+A C version of debrid.sh, `libcurl` is the only dependency. This should run on Unix
+and Windows.
