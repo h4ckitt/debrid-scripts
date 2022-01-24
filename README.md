@@ -16,5 +16,5 @@ $ ./debrid.sh [url] ...
 
 ## debrid.c
 
-A C version of debrid.sh, `libcurl` is the only dependency. This should run on Unix
-and Windows.
+A C version of debrid.sh that should run on Unix
+and Windows. `libcurl` is the only dependency.
