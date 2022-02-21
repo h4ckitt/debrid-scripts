@@ -20,15 +20,15 @@ info() { printf "\33[2K\r$COLOR_INF[*]$COLOR_RES $1" ; }
 #	-> POST to [link] using PROXY, get to download button
 #	-> Parse HTML, grab link
 debrid() {
-	# (Lazily) Validate URL
-	if [[ "$1" != *"http"* ]]
+	# Validate URL
+	if ! [[ "$1" =~ https:\/\/1fichier.com\/[\\]?\?[a-zA-Z0-9]{20}$ ]]
 	then
 		err "Invalid URL" && return 1
 	elif [[ "$1" == *"/dir/"* ]]
 	then
 		err "Directories are not supported yet" && return 1
 	fi
-	
+
 	# Loop attempts
 	while [ 1 ]
 	do
