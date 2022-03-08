@@ -5,6 +5,9 @@ PROXY_FILE="SOCKS5.txt"
 PROXY_WARN=$(( $(date +%s) - 43200 )) # 43200s -> 12h
 PROXY_URL="https://raw.githubusercontent.com/manuGMG/proxy-365/main/SOCKS5.txt"
 
+
+DOMAINS=('1fichier.com' 'alterupload.com' 'cjoint.net' 'desfichiers.com' 'megadl.fr' 'mesfichiers.org' 'piecejointe.net' 'pjointe.com' 'tenvoi.com' 'dl4free.com')
+
 # Colors
 COLOR_ERR=$(tput bold && tput setaf 1) # Bold red 
 COLOR_INF=$(tput bold && tput setaf 6) # Bold cyan
@@ -19,9 +22,25 @@ info() { printf "\33[2K\r$COLOR_INF[*]$COLOR_RES $1" ; }
 # 	-> Get PROXY (from PROXY_FILE)
 #	-> POST to [link] using PROXY, get to download button
 #	-> Parse HTML, grab link
+
+contains() {
+	url="${1#https://}"
+	url="${url%%/*}"
+
+	for i in ${DOMAINS[@]}
+	do
+		if [[ "$i" == "$url" ]]
+		then
+			echo $i
+			return
+		fi
+	done
+}
 debrid() {
 	# Validate URL
-	if ! [[ "$1" =~ https:\/\/1fichier.com\/[\\]?\?[a-zA-Z0-9]{20}$ ]]
+	domain="$(contains "$1")"
+
+	if [[ -z "$domain" ]] || ! [[ "$1" =~ https:\/\/$domain\/[\\]?\?[a-zA-Z0-9]{20}$ ]]
 	then
 		err "Invalid URL" && return 1
 	elif [[ "$1" == *"/dir/"* ]]
