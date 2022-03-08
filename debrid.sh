@@ -4,8 +4,6 @@
 PROXY_FILE="SOCKS5.txt"
 PROXY_WARN=$(( $(date +%s) - 43200 )) # 43200s -> 12h
 PROXY_URL="https://raw.githubusercontent.com/manuGMG/proxy-365/main/SOCKS5.txt"
-
-
 DOMAINS=('1fichier.com' 'alterupload.com' 'cjoint.net' 'desfichiers.com' 'megadl.fr' 'mesfichiers.org' 'piecejointe.net' 'pjointe.com' 'tenvoi.com' 'dl4free.com')
 
 # Colors
@@ -17,12 +15,8 @@ COLOR_RES=$(tput sgr 0)                # Reset
 err() { printf "\33[2K\r$COLOR_ERR[!]$COLOR_RES $1\n" ; }
 info() { printf "\33[2K\r$COLOR_INF[*]$COLOR_RES $1" ; }
 
-# Debrid function 
-#	Validate URL
-# 	-> Get PROXY (from PROXY_FILE)
-#	-> POST to [link] using PROXY, get to download button
-#	-> Parse HTML, grab link
-
+# Check if URL parameter contains a valid domain 
+# (Helper function)
 contains() {
 	url="${1#https://}"
 	url="${url%%/*}"
@@ -36,6 +30,12 @@ contains() {
 		fi
 	done
 }
+
+# Debrid function 
+#	Validate URL
+# 	-> Get PROXY (from PROXY_FILE)
+#	-> POST to [link] using PROXY, get to download button
+#	-> Parse HTML, grab link
 debrid() {
 	# Validate URL
 	domain="$(contains "$1")"
